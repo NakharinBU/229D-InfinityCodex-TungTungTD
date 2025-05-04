@@ -5,45 +5,47 @@ using UnityEngine;
 public class Shooter : MonoBehaviour
 {
     public Transform shootPoint;
-
     public GameObject target;
-
     public Rigidbody2D bulletPrefab;
+    public Transform firePoint;
+    public PlayerStats playerStats;
+
+    private float nextFireTime = 0f;
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButton(0))
         {
-            // แปลงตำแหน่งเมาส์ในจอ เป็นตำแหน่งในโลก 2D
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            Debug.DrawRay(ray.origin, ray.direction * 5f, Color.magenta, 5f);
-
-            RaycastHit2D hit = Physics2D.GetRayIntersection(ray, Mathf.Infinity);
-
-            if (hit.collider != null)
+            if (Time.time >= nextFireTime)
             {
-                // ย้าย Target ไปที่ตำแหน่งคลิก
-                target.transform.position = new Vector2(hit.point.x, hit.point.y);
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                Debug.DrawRay(ray.origin, ray.direction * 5f, Color.magenta, 5f);
 
-                // คำนวณความเร็วสำหรับการยิง
-                Vector2 projectileVelocity = CalculateProjectileVelocity(shootPoint.position, hit.point, 1f);
+                RaycastHit2D hit = Physics2D.GetRayIntersection(ray, Mathf.Infinity);
 
-                // สร้างกระสุนใหม่
-                Rigidbody2D firedBullet = Instantiate(bulletPrefab, shootPoint.position, Quaternion.identity);
+                if (hit.collider != null)
+                {
+                    target.transform.position = new Vector2(hit.point.x, hit.point.y);
 
-                // ใส่ความเร็วให้กระสุน
-                firedBullet.velocity = projectileVelocity;
+                    Vector2 projectileVelocity = CalculateProjectileVelocity(shootPoint.position, hit.point, 1f);
 
-            }//hit.collider
+                    Rigidbody2D firedBullet = Instantiate(bulletPrefab, shootPoint.position, Quaternion.identity);
 
-        }//GetMouseButtonDown
+                    firedBullet.velocity = projectileVelocity;
 
-    }// Update
+                    Bullet bulletScript = firedBullet.GetComponent<Bullet>();
+                    if (bulletScript != null)
+                    {
+                        bulletScript.SetDamage(playerStats.damage);
+                    }
 
+                    nextFireTime = Time.time + (1f / playerStats.fireRate);
+                }
+            }
+        }
+    }
     Vector2 CalculateProjectileVelocity(Vector2 origin, Vector2 target, float time)
-
     {
-
         Vector2 distance = target - origin;
 
         float velocityX = distance.x / time;
@@ -51,6 +53,5 @@ public class Shooter : MonoBehaviour
         float velocityY = distance.y / time + 0.5f * Mathf.Abs(Physics2D.gravity.y) * time;
 
         return new Vector2(velocityX, velocityY);
-
-    }//
+    }
 }

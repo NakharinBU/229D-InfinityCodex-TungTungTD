@@ -4,25 +4,32 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public int maxHealth = 5;
     private int currentHealth;
 
-    public Transform target;
-    public HealthBar healthBar;
+    public EnemyStats stats;
+
+    private Transform target;
 
     void Start()
     {
-        currentHealth = maxHealth;
-        healthBar.SetMaxHealth(maxHealth);
+        if (stats == null)
+        {
+            stats = GetComponent<EnemyStats>();
+        }
+
+        target = GameObject.FindWithTag("Player").transform;
+
+        currentHealth = stats.maxHealth;
     }
 
     public void TakeDamage(int dmg)
     {
         currentHealth -= dmg;
-        healthBar.SetHealth(currentHealth);
 
         if (currentHealth <= 0)
-            Destroy(gameObject);
+        {
+            Die();
+        }
     }
 
     void Update()
@@ -30,8 +37,27 @@ public class Enemy : MonoBehaviour
         if (target != null)
         {
             Vector2 dir = (target.position - transform.position).normalized;
-            transform.Translate(dir * Time.deltaTime * 2f);
+            transform.Translate(dir * Time.deltaTime * stats.moveSpeed);
         }
     }
 
+    void Die()
+    {
+        GameManager.Instance.AddMoney(10);
+        Destroy(gameObject);
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            PlayerStats playerStats = collision.gameObject.GetComponent<PlayerStats>();
+            if (playerStats != null)
+            {
+                playerStats.TakeDamage(stats.touchDamage);
+            }
+
+            Destroy(gameObject);
+        }
+    }
 }
