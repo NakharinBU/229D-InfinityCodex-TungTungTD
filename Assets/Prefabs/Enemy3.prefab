@@ -344,5 +344,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 130
-  moveSpeed: 2
-  touchDamage: 10
+  moveSpeed: 2.5
+  touchDamage: 15

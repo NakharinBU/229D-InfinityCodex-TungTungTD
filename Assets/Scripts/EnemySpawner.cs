@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class EnemySpawner : MonoBehaviour
@@ -17,14 +18,23 @@ public class EnemySpawner : MonoBehaviour
 
     public float countdownTime = 5f;
 
+    public AudioClip[] waveStartSounds;
+    private AudioSource audioSource;
+
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         UpdateWaveText();
         StartCoroutine(StartNextWave());
     }
 
     IEnumerator StartNextWave()
     {
+        if (currentWaveIndex < waveStartSounds.Length && waveStartSounds[currentWaveIndex] != null)
+        {
+            audioSource.PlayOneShot(waveStartSounds[currentWaveIndex]);
+        }
+
         float timeLeft = countdownTime;
         while (timeLeft > 0)
         {
@@ -49,7 +59,6 @@ public class EnemySpawner : MonoBehaviour
                 yield return new WaitForSeconds(1f / currentWave.spawnRate);
             }
 
-            // 👉 รอจนกว่าศัตรูหมด
             yield return new WaitUntil(() => GameObject.FindGameObjectsWithTag("Enemy").Length == 0);
 
             currentWaveIndex++;
@@ -62,6 +71,7 @@ public class EnemySpawner : MonoBehaviour
             else
             {
                 waveText.text = "All Waves Complete!";
+                SceneManager.LoadScene("EndCredit");
             }
         }
     }

@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour
 
     private Transform target;
 
-    void Start()
+    public void Start()
     {
         if (stats == null)
         {
@@ -32,7 +32,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    void Update()
+    public void Update()
     {
         if (target != null)
         {
@@ -41,13 +41,27 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    void Die()
+    public void Die()
     {
         GameManager.Instance.AddMoney(10);
         Destroy(gameObject);
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            PlayerStats playerStats = collision.gameObject.GetComponent<PlayerStats>();
+            if (playerStats != null)
+            {
+                playerStats.TakeDamage(stats.touchDamage);
+            }
+
+            Destroy(gameObject);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {

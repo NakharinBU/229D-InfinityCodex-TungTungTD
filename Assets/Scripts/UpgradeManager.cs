@@ -75,7 +75,7 @@ public class UpgradeManager : MonoBehaviour
                 break;
             case "hp":
                 playerStats.maxHP += 20;
-                playerStats.currentHP = playerStats.maxHP;
+                playerStats.currentHP += 20;
                 break;
         }
 

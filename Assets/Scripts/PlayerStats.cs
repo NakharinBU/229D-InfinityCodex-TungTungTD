@@ -8,7 +8,7 @@ public class PlayerStats : MonoBehaviour
     public float fireRate = 1f;
     public int maxHP = 100;
     public int currentHP;
-
+    public PlayAgain playerDied;
     void Start()
     {
         currentHP = maxHP;
@@ -20,14 +20,17 @@ public class PlayerStats : MonoBehaviour
         if (currentHP <= 0)
         {
             currentHP = 0;
-            
+            Destroy(gameObject);
             Die();
         }
     }
 
     void Die()
     {
-        Debug.Log("Player died!");
-        //SceneManager.LoadScene("GameOverScene");
+        if (playerDied != null)
+        {
+            playerDied.ShowDied();
+        }
     }
+
 }
