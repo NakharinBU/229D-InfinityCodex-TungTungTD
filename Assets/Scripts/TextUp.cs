@@ -11,7 +11,7 @@ public class EndCreditScroll : MonoBehaviour
 
     void Start()
     {
-        endGameText.DOAnchorPosY(2100, scrollSpeed).SetEase(Ease.Linear).OnComplete(() =>
+        endGameText.DOAnchorPosY(2500, scrollSpeed).SetEase(Ease.Linear).OnComplete(() =>
         { Debug.Log("End Game"); });
     }
 }
