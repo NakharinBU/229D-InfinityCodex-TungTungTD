@@ -3253,6 +3253,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1487888762}
   - component: {fileID: 1487888761}
+  - component: {fileID: 1487888763}
   m_Layer: 0
   m_Name: Delete item
   m_TagString: Untagged
@@ -3289,10 +3290,10 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
+  m_IsTrigger: 1
+  m_UsedByEffector: 1
   m_UsedByComposite: 0
-  m_Offset: {x: 3.670002, y: -0.5739076}
+  m_Offset: {x: 3.573946, y: -2.3886259}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -3303,7 +3304,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 16.189693, y: 1.6964755}
+  m_Size: {x: 69.627594, y: 5.325912}
   m_EdgeRadius: 0
 --- !u!4 &1487888762
 Transform:
@@ -3314,12 +3315,32 @@ Transform:
   m_GameObject: {fileID: 1487888760}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.820046, y: -5.02, z: 0.07752423}
+  m_LocalPosition: {x: -4.820046, y: -7.59, z: 0.07752423}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!249 &1487888763
+AreaEffector2D:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1487888760}
+  m_Enabled: 1
+  m_UseColliderMask: 1
+  m_ColliderMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGlobalAngle: 0
+  m_ForceAngle: 0
+  m_ForceMagnitude: 10
+  m_ForceVariation: 0
+  m_ForceTarget: 0
+  m_Drag: 0
+  m_AngularDrag: 0
 --- !u!1 &1513408305
 GameObject:
   m_ObjectHideFlags: 0
